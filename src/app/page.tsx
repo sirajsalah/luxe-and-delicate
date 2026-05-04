@@ -62,11 +62,11 @@ const moreProducts = [
 
 // Bright, vibrant bead bracelet Unsplash photos
 const HERO_SLIDES = [
-  { src: `${BASE}/photo-1515562141207-7a88fb7ce338?w=2000&q=95`, pos: "center 50%" }, // bright gold bracelet on wrist
+  { src: `${BASE}/photo-1534976618208-4833d5b57d08?w=2000&q=95`, pos: "center 50%" }, // beaded bracelet on hand (was #5)
   { src: `${BASE}/photo-1743127671067-62af70aa67c2?w=2000&q=95`, pos: "center 50%" }, // vivid purple beaded bracelet
-  { src: `${BASE}/photo-1633810543462-77c4a3b13f07?w=2000&q=95`, pos: "center 40%" }, // person wearing bracelet close-up
+  { src: `${BASE}/photo-1637808248242-57a6265593ed?w=2000&q=95`, pos: "center 50%" }, // colorful group of bracelets (new)
   { src: `${BASE}/photo-1601888238880-267580743a6d?w=2000&q=95`, pos: "center 50%" }, // silver & black beaded bracelet
-  { src: `${BASE}/photo-1534976618208-4833d5b57d08?w=2000&q=95`, pos: "center 50%" }, // beaded bracelet on hand
+  { src: `${BASE}/photo-1743127671060-df0140e9edf0?w=2000&q=95`, pos: "center 50%" }, // purple bead bracelet with charm (new)
 ];
 
 export default function HomePage() {
