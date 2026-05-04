@@ -60,13 +60,13 @@ const moreProducts = [
   { id: "8", slug: "keystone-bead-set",    title: "KeyStone Stack Set",   price: 144, compareAt: null, badge: "LIMITED",     image: IMG.p2 },
 ];
 
-// 5 confirmed bracelet-on-wrist / bracelet-on-hand Unsplash photos
+// Bright, vibrant bracelet-on-wrist Unsplash photos
 const HERO_SLIDES = [
-  { src: `${BASE}/photo-1633810543462-77c4a3b13f07?w=2000&q=90`, pos: "center 40%" }, // wrist close-up wearing bracelet
-  { src: `${BASE}/photo-1534976618208-4833d5b57d08?w=2000&q=90`, pos: "center 50%" }, // hand wearing beaded black bracelet
-  { src: `${BASE}/photo-1601888238880-267580743a6d?w=2000&q=90`, pos: "center 50%" }, // silver & black beaded on wrist
-  { src: `${BASE}/photo-1639363885736-b6685fcbf1f5?w=2000&q=90`, pos: "center 60%" }, // bracelet close-up on hand
-  { src: `${BASE}/photo-1743127671067-62af70aa67c2?w=2000&q=90`, pos: "center 50%" }, // purple beaded bracelet on wrist
+  { src: `${BASE}/photo-1515562141207-7a88fb7ce338?w=2000&q=95`, pos: "center 50%" }, // bright gold bracelet on wrist
+  { src: `${BASE}/photo-1573408301185-9519f94dfd01?w=2000&q=95`, pos: "center 45%" }, // colorful beaded bracelet
+  { src: `${BASE}/photo-1633810543462-77c4a3b13f07?w=2000&q=95`, pos: "center 40%" }, // person wearing bracelet close-up
+  { src: `${BASE}/photo-1611591437281-460bfbe1220a?w=2000&q=95`, pos: "center 50%" }, // vibrant jewelry wrist shot
+  { src: `${BASE}/photo-1534976618208-4833d5b57d08?w=2000&q=95`, pos: "center 50%" }, // beaded bracelet on hand
 ];
 
 export default function HomePage() {
@@ -90,7 +90,7 @@ export default function HomePage() {
           <div key={i} style={{
             position: "absolute", inset: 0,
             opacity: i === slide ? 1 : 0,
-            transition: "opacity 1.6s ease-in-out",
+            transition: "opacity 1.8s ease-in-out",
             zIndex: i === slide ? 1 : 0,
           }}>
             <Image
@@ -99,14 +99,19 @@ export default function HomePage() {
               fill
               priority={i === 0}
               sizes="100vw"
-              style={{ objectFit: "cover", objectPosition: s.pos, opacity: 0.72 }}
+              style={{
+                objectFit: "cover",
+                objectPosition: s.pos,
+                opacity: 1,
+                filter: "brightness(1.08) saturate(1.15)",
+              }}
             />
           </div>
         ))}
 
-        {/* Lighter gradient overlay — less dark than before */}
+        {/* Minimal overlay — only darken the bottom so text is readable, top stays vivid */}
         <div style={{ position: "absolute", inset: 0, zIndex: 2,
-          background: "linear-gradient(to bottom, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0.52) 60%, rgba(5,5,5,0.88) 100%)" }} />
+          background: "linear-gradient(to bottom, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.15) 40%, rgba(0,0,0,0.68) 80%, rgba(5,5,5,0.92) 100%)" }} />
 
         {/* Content */}
         <div style={{ position: "absolute", inset: 0, zIndex: 3, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "0 24px" }}>
@@ -117,12 +122,12 @@ export default function HomePage() {
             <div style={{ width: "60px", height: "1px", backgroundColor: "rgba(184,134,11,0.7)" }} />
           </div>
 
-          <h1 style={{ fontFamily: "Georgia, 'Cormorant Garamond', serif", fontSize: "clamp(3rem, 7vw, 6rem)", fontWeight: 300, color: "#fff", letterSpacing: "0.08em", lineHeight: 1.0, marginBottom: "24px" }}>
+          <h1 style={{ fontFamily: "Georgia, 'Cormorant Garamond', serif", fontSize: "clamp(3rem, 7vw, 6rem)", fontWeight: 300, color: "#fff", letterSpacing: "0.08em", lineHeight: 1.0, marginBottom: "24px", textShadow: "0 2px 24px rgba(0,0,0,0.5)" }}>
             STONE BEAD<br />
-            <span style={{ fontStyle: "italic", color: "#c8b896" }}>Bracelets</span>
+            <span style={{ fontStyle: "italic", color: "#e8d5a3" }}>Bracelets</span>
           </h1>
 
-          <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.6)", letterSpacing: "0.06em", lineHeight: 1.9, marginBottom: "44px", maxWidth: "420px" }}>
+          <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.85)", letterSpacing: "0.06em", lineHeight: 1.9, marginBottom: "44px", maxWidth: "420px", textShadow: "0 1px 8px rgba(0,0,0,0.4)" }}>
             Handcrafted from genuine gemstones — lapis lazuli, turquoise, onyx, jade &amp; more.
             Each bracelet is one of a kind.
           </p>
