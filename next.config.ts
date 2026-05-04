@@ -1,7 +1,8 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
   typescript: {
-    // Type errors are caught in VS Code / CI — don't block production builds
+    // Type errors are caught in VS Code — don't block production builds
     ignoreBuildErrors: true,
   },
   eslint: {
@@ -17,4 +18,4 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+export default nextConfig;
