@@ -41,10 +41,8 @@ export default function AdminCustomersPage() {
 
   const fetchAll = useCallback(async () => {
     setLoading(true);
-    const [{ data: custs }, { data: orders }] = await Promise.all([
-      supabase.from("customers").select("*").order("created_at", { ascending: false }),
-      supabase.from("orders").select("*"),
-    ]);
+    const { data: custs }  = await supabase.from("customers").select("*").order("created_at", { ascending: false });
+    const { data: orders } = await supabase.from("orders").select("*");
 
     const enriched: CustomerWithOrders[] = (custs ?? []).map((c) => {
       const cOrders = (orders ?? []).filter((o) => o.customer_email === c.email);
