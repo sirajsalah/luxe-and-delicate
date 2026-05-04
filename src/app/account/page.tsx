@@ -311,8 +311,3 @@ export default function AccountPage() {
     </div>
   );
 }
-
-const labelStyle: React.CSSProperties = {
-  display: "block", fontSize: "9px", fontWeight: 700, letterSpacing: "0.22em",
-  textTransform: "uppercase", color: "#b8860b", marginBottom: "8px",
-};
