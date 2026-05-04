@@ -41,11 +41,14 @@ export default function AdminCustomersPage() {
 
   const fetchAll = useCallback(async () => {
     setLoading(true);
-    const { data: custs }  = await supabase.from("customers").select("*").order("created_at", { ascending: false });
-    const { data: orders } = await supabase.from("orders").select("*");
+    const custsRes  = await supabase.from("customers").select("*").order("created_at", { ascending: false });
+    const ordersRes = await supabase.from("orders").select("*");
 
-    const enriched: CustomerWithOrders[] = (custs ?? []).map((c) => {
-      const cOrders = (orders ?? []).filter((o) => o.customer_email === c.email);
+    const custs  = (custsRes.data  ?? []) as Customer[];
+    const orders = (ordersRes.data ?? []) as Order[];
+
+    const enriched: CustomerWithOrders[] = custs.map((c) => {
+      const cOrders  = orders.filter((o) => o.customer_email === c.email);
       const totalSpent = cOrders.reduce((s, o) => s + Number(o.total), 0);
       return { ...c, orders: cOrders, totalSpent };
     });

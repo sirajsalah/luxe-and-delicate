@@ -42,11 +42,11 @@ export default function AdminOrdersPage() {
 
   const fetchOrders = useCallback(async () => {
     setLoading(true);
-    const { data } = await supabase
+    const res = await supabase
       .from("orders")
       .select("*")
       .order("created_at", { ascending: false });
-    setOrders(data ?? []);
+    setOrders((res.data ?? []) as Order[]);
     setLoading(false);
   }, []);
 
@@ -54,7 +54,7 @@ export default function AdminOrdersPage() {
 
   const updateStatus = async (id: string, status: string) => {
     setUpdatingId(id);
-    await supabase.from("orders").update({ status }).eq("id", id);
+    await supabase.from("orders").update({ status: status as Order["status"] }).eq("id", id);
     setUpdatingId(null);
     // Update local state instantly
     setOrders((prev) => prev.map((o) => o.id === id ? { ...o, status } : o));
