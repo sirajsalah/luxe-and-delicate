@@ -1,365 +1,280 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, Sparkles } from "lucide-react";
 
-/* ─── Placeholder product data (replace with real DB data later) ─── */
-const featuredProducts = [
-  {
-    id: "1",
-    title: "Golden Beaded Stack",
-    price: 48,
-    compareAtPrice: 64,
-    image: "https://images.unsplash.com/photo-1611652022419-a9419f74343d?w=600&q=80",
-    badge: "Best Seller",
-    slug: "golden-beaded-stack",
-  },
-  {
-    id: "2",
-    title: "Rose Quartz Charm",
-    price: 56,
-    image: "https://images.unsplash.com/photo-1573408301185-9519f94f8df9?w=600&q=80",
-    badge: "New",
-    slug: "rose-quartz-charm",
-  },
-  {
-    id: "3",
-    title: "Leather & Gold Wrap",
-    price: 72,
-    image: "https://images.unsplash.com/photo-1602173574767-37ac01994b2a?w=600&q=80",
-    badge: null,
-    slug: "leather-gold-wrap",
-  },
-  {
-    id: "4",
-    title: "Pearl Delicate Chain",
-    price: 62,
-    image: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=600&q=80",
-    badge: "New",
-    slug: "pearl-delicate-chain",
-  },
-];
+// ─────────────────────────────────────────────────────────────────────────────
+// TODO — Replace every placeholder URL with your own product photos.
+//  Upload them to /public/images/ in the Next.js project, or to Supabase Storage
+//  (covered in Session 4), then swap the strings below.
+//  Format: "/images/your-photo.jpg"  OR  "https://your-supabase-url.co/..."
+// ─────────────────────────────────────────────────────────────────────────────
+const BASE = "https://images.unsplash.com";
+
+// All confirmed bracelet photos from Unsplash (free, no attribution required)
+const IMG = {
+  // Hero — close up of person wearing a bracelet on wrist
+  hero:      `${BASE}/photo-1633810543462-77c4a3b13f07?w=2000&q=85`,
+
+  // Collection tiles — all actual bracelet images
+  col1:      `${BASE}/photo-1639363885736-b6685fcbf1f5?w=800&q=80`,  // bracelet on table close-up
+  col2:      `${BASE}/photo-1743127671067-62af70aa67c2?w=800&q=80`,  // purple beaded bracelet
+  col3:      `${BASE}/photo-1637808248242-57a6265593ed?w=800&q=80`,  // group of bracelets on shell
+  col4:      `${BASE}/photo-1601888238880-267580743a6d?w=800&q=80`,  // silver & black beaded bracelet
+  col5:      `${BASE}/photo-1636520326725-ef3fe2bf0557?w=800&q=80`,  // bracelets on shell group
+  col6:      `${BASE}/photo-1639706188490-876064810182?w=800&q=80`,  // beaded bracelet on table
+  col7:      `${BASE}/photo-1534976618208-4833d5b57d08?w=800&q=80`,  // person wearing beaded black bracelet
+
+  // Product images — all actual bracelet photos
+  p1: `${BASE}/photo-1601888238880-267580743a6d?w=700&q=85`,  // silver & black beaded bracelet
+  p2: `${BASE}/photo-1743127671067-62af70aa67c2?w=700&q=85`,  // purple beaded bracelet displayed
+  p3: `${BASE}/photo-1534976618208-4833d5b57d08?w=700&q=85`,  // person wearing beaded black bracelet
+  p4: `${BASE}/photo-1639363885736-b6685fcbf1f5?w=700&q=85`,  // bracelet close-up on table
+  p5: `${BASE}/photo-1637808248242-57a6265593ed?w=700&q=85`,  // bracelets on shell
+  p6: `${BASE}/photo-1743127671060-df0140e9edf0?w=700&q=85`,  // purple bead bracelet with charm
+  p7: `${BASE}/photo-1636520326725-ef3fe2bf0557?w=700&q=85`,  // multiple bracelets on shell
+  p8: `${BASE}/photo-1639706188490-876064810182?w=700&q=85`,  // beaded bracelet close-up
+};
 
 const collections = [
-  {
-    title: "Beaded",
-    subtitle: "Colour & Soul",
-    image: "https://images.unsplash.com/photo-1611652022419-a9419f74343d?w=800&q=80",
-    href: "/shop/beaded",
-  },
-  {
-    title: "Charm",
-    subtitle: "Tell Your Story",
-    image: "https://images.unsplash.com/photo-1573408301185-9519f94f8df9?w=800&q=80",
-    href: "/shop/charms",
-  },
-  {
-    title: "Custom",
-    subtitle: "Made for You",
-    image: "https://images.unsplash.com/photo-1535556116002-6281ff3e9f36?w=800&q=80",
-    href: "/shop/custom",
-  },
+  { label: "Turquoise\nCollection",    href: "/shop/turquoise",    image: IMG.col1 },
+  { label: "Jade\nCollection",         href: "/shop/jade",         image: IMG.col2 },
+  { label: "Untamed\nCollection",      href: "/shop/untamed",      image: IMG.col3 },
+  { label: "Onyx\nCollection",         href: "/shop/onyx",         image: IMG.col4 },
+  { label: "Raw Stone\nCollection",    href: "/shop/raw",          image: IMG.col5 },
+  { label: "KeyStone\nCollection",     href: "/shop/keystone",     image: IMG.col6 },
+  { label: "Silver\nCollection",       href: "/shop/silver",       image: IMG.col7 },
 ];
 
-const trustBadges = [
-  { icon: "✦", label: "Handcrafted", sub: "Every piece made with care" },
-  { icon: "♻", label: "Sustainable", sub: "Ethical materials only" },
-  { icon: "↩", label: "100-Day Returns", sub: "Hassle-free guarantee" },
-  { icon: "✉", label: "Free Shipping", sub: "On orders over $65" },
+const topProducts = [
+  { id: "1", slug: "turquoise-stone-bead", title: "Turquoise Stone Bead Bracelet",   price: 68,  badge: "TOP RATED",  image: IMG.p1 },
+  { id: "2", slug: "sodalite-heishi-bead", title: "Sodalite Heishi Bead Bracelet",   price: 58,  badge: "LIMITED",    image: IMG.p2 },
+  { id: "3", slug: "hematite-bead-dark",   title: "Hematite Dark Stone Bracelet",    price: 72,  badge: "RESTOCKED",  image: IMG.p3 },
+  { id: "4", slug: "jade-cube-bracelet",   title: "Jade Cube Stone Bracelet",        price: 78,  badge: null,         image: IMG.p4 },
+];
+
+const moreProducts = [
+  { id: "5", slug: "amber-stone-bead",     title: "Amber Stone Bead",     price: 82,  compareAt: null, badge: "NEW",         image: IMG.p5 },
+  { id: "6", slug: "silver-bead-bracelet", title: "Silver Bead Stretch",  price: 54,  compareAt: 68,   badge: "SALE",        image: IMG.p6 },
+  { id: "7", slug: "raw-diamond-bead",     title: "Raw Diamond Stone",    price: 96,  compareAt: null, badge: "TOP RATED",   image: IMG.p1 },
+  { id: "8", slug: "keystone-bead-set",    title: "KeyStone Stack Set",   price: 144, compareAt: null, badge: "LIMITED",     image: IMG.p2 },
 ];
 
 export default function HomePage() {
   return (
-    <>
-      {/* ── HERO SECTION ── */}
-      <section className="relative h-[92vh] min-h-[600px] max-h-[900px] overflow-hidden">
-        {/* Background image */}
-        <Image
-          src="https://images.unsplash.com/photo-1599643477877-530eb83abc8e?w=1800&q=85"
-          alt="Luxe & Delicate bracelets"
-          fill
-          priority
-          className="object-cover object-center"
-          sizes="100vw"
-        />
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-soft-black/50 via-soft-black/20 to-transparent" />
+    <div style={{ backgroundColor: "#050505", color: "#e8e0d8", fontFamily: "'DM Sans', system-ui, -apple-system, sans-serif" }}>
 
-        {/* Content */}
-        <div className="absolute inset-0 flex items-center">
-          <div className="mx-auto max-w-7xl px-6 lg:px-8 w-full">
-            <div className="max-w-xl animate-fade-in">
-              <p className="section-subheading text-white/70 mb-4">
-                New Collection 2025
-              </p>
-              <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-light text-white tracking-tight leading-[1.05] mb-6 text-balance">
-                Stack. Style.{" "}
-                <em className="italic text-blush-light">Shine.</em>
-              </h1>
-              <p className="font-body text-base text-white/70 mb-10 leading-relaxed max-w-sm">
-                Handcrafted bracelets that become part of your story. Layer them,
-                stack them, wear them every day.
-              </p>
-              <div className="flex flex-wrap gap-4">
-                <Link href="/shop" className="btn-primary">
-                  Shop Now
-                </Link>
-                <Link href="/collections" className="inline-flex items-center gap-2 text-xs tracking-widest uppercase font-medium text-white border-b border-white/40 pb-0.5 hover:border-white transition-colors">
-                  Explore Collections <ArrowRight size={12} />
-                </Link>
-              </div>
-            </div>
+      {/* ── HERO ─────────────────────────────────────────────────────────────── */}
+      <section style={{ position: "relative", height: "680px", overflow: "hidden", backgroundColor: "#0a0a0a" }}>
+        <Image src={IMG.hero} alt="Stone Bead Bracelet Collection" fill priority
+          style={{ objectFit: "cover", objectPosition: "center", opacity: 0.4 }}
+          sizes="100vw" />
+        <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at center, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.9) 100%)" }} />
+
+        <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "0 24px" }}>
+          {/* Decorative line */}
+          <div style={{ display: "flex", alignItems: "center", gap: "16px", marginBottom: "28px" }}>
+            <div style={{ width: "60px", height: "1px", backgroundColor: "rgba(184,134,11,0.6)" }} />
+            <span style={{ fontSize: "9px", fontWeight: 600, letterSpacing: "0.28em", textTransform: "uppercase", color: "#b8860b" }}>LUXE &amp; DELICATE</span>
+            <div style={{ width: "60px", height: "1px", backgroundColor: "rgba(184,134,11,0.6)" }} />
           </div>
+
+          <h1 style={{ fontFamily: "Georgia, 'Cormorant Garamond', serif", fontSize: "clamp(3rem, 7vw, 6rem)", fontWeight: 300, color: "#fff", letterSpacing: "0.08em", lineHeight: 1.0, marginBottom: "24px" }}>
+            STONE BEAD<br />
+            <span style={{ fontStyle: "italic", color: "#c8b896" }}>Bracelets</span>
+          </h1>
+
+          <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.45)", letterSpacing: "0.06em", lineHeight: 1.9, marginBottom: "44px", maxWidth: "420px" }}>
+            Handcrafted from genuine gemstones — lapis lazuli, turquoise, onyx, jade &amp; more.
+            Each bracelet is one of a kind.
+          </p>
+
+          <div style={{ display: "flex", gap: "16px" }}>
+            <Link href="/shop" style={{ padding: "14px 44px", fontSize: "9px", fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", backgroundColor: "#b8860b", color: "#fff", textDecoration: "none" }}>
+              SHOP ALL
+            </Link>
+            <Link href="/collections" style={{ padding: "14px 44px", fontSize: "9px", fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", backgroundColor: "transparent", color: "#fff", textDecoration: "none", border: "1px solid rgba(255,255,255,0.25)" }}>
+              COLLECTIONS
+            </Link>
+          </div>
+        </div>
+
+        {/* Scroll indicator */}
+        <div style={{ position: "absolute", bottom: "32px", left: "50%", transform: "translateX(-50%)", display: "flex", flexDirection: "column", alignItems: "center", gap: "8px" }}>
+          <div style={{ width: "1px", height: "36px", backgroundColor: "rgba(184,134,11,0.5)" }} />
+          <span style={{ fontSize: "8px", letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(255,255,255,0.3)" }}>SCROLL</span>
         </div>
       </section>
 
-      {/* ── TRUST BADGES ── */}
-      <section className="bg-cream border-y border-warm-200">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-warm-200">
-            {trustBadges.map((badge) => (
-              <div key={badge.label} className="flex flex-col items-center py-5 px-4 text-center">
-                <span className="text-rose-gold text-lg mb-1">{badge.icon}</span>
-                <span className="font-body text-xs font-semibold tracking-widest uppercase text-charcoal">
-                  {badge.label}
-                </span>
-                <span className="font-body text-xs text-warm-400 mt-0.5 hidden sm:block">
-                  {badge.sub}
-                </span>
-              </div>
+      {/* ── MARQUEE ───────────────────────────────────────────────────────────── */}
+      <div style={{ backgroundColor: "#b8860b", padding: "11px 0" }}>
+        <div style={{ display: "flex", gap: "60px", justifyContent: "center", flexWrap: "wrap", overflow: "hidden" }}>
+          {["✦ Free Shipping Over $65", "✦ Genuine Gemstones", "✦ 100-Day Returns", "✦ Handcrafted in Small Batches", "✦ Each Piece is Unique"].map((t) => (
+            <span key={t} style={{ fontSize: "9px", fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", color: "#fff", whiteSpace: "nowrap" }}>{t}</span>
+          ))}
+        </div>
+      </div>
+
+      {/* ── LATEST COLLECTIONS ───────────────────────────────────────────────── */}
+      <section style={{ padding: "80px 0 80px" }}>
+        <div style={{ maxWidth: "1380px", margin: "0 auto", padding: "0 32px" }}>
+
+          {/* Section header */}
+          <div style={{ textAlign: "center", marginBottom: "48px" }}>
+            <p style={{ fontSize: "9px", fontWeight: 700, letterSpacing: "0.28em", textTransform: "uppercase", color: "#b8860b", marginBottom: "12px" }}>
+              — BROWSE —
+            </p>
+            <h2 style={{ fontFamily: "Georgia, serif", fontSize: "clamp(1.8rem, 4vw, 2.6rem)", fontWeight: 300, color: "#fff", letterSpacing: "0.1em" }}>
+              Latest Collections
+            </h2>
+          </div>
+
+          {/* Horizontal scroll of collection cards */}
+          <div style={{ display: "flex", gap: "14px", overflowX: "auto", paddingBottom: "8px", scrollbarWidth: "none" }}>
+            {collections.map((col) => (
+              <Link key={col.label} href={col.href} style={{ textDecoration: "none", display: "block", flexShrink: 0, width: "190px" }}>
+                <div style={{ position: "relative", height: "240px", overflow: "hidden", backgroundColor: "#111", borderRadius: "10px", border: "1px solid rgba(255,255,255,0.07)" }} className="group">
+                  <Image src={col.image} alt={col.label} fill
+                    style={{ objectFit: "cover", opacity: 0.55 }}
+                    className="transition-all duration-700 group-hover:opacity-75 group-hover:scale-105"
+                    sizes="190px" />
+                  <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.2) 55%, transparent 100%)" }} />
+                  <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "18px 14px" }}>
+                    <p style={{ color: "#fff", fontFamily: "Georgia, serif", fontSize: "13px", fontWeight: 400, letterSpacing: "0.04em", lineHeight: 1.4, whiteSpace: "pre-line", margin: 0 }}>
+                      {col.label}
+                    </p>
+                  </div>
+                </div>
+              </Link>
             ))}
           </div>
+
         </div>
       </section>
 
-      {/* ── FEATURED PRODUCTS ── */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20">
-        <div className="flex items-end justify-between mb-12">
-          <div>
-            <p className="section-subheading mb-2">Curated for You</p>
-            <h2 className="section-heading">Best Sellers</h2>
+      {/* Divider */}
+      <div style={{ maxWidth: "1380px", margin: "0 auto", padding: "0 32px" }}>
+        <div style={{ height: "1px", backgroundColor: "#1a1a1a" }} />
+      </div>
+
+      {/* ── TOP PRODUCTS ─────────────────────────────────────────────────────── */}
+      <section style={{ padding: "80px 0" }}>
+        <div style={{ maxWidth: "1380px", margin: "0 auto", padding: "0 32px" }}>
+
+          <div style={{ textAlign: "center", marginBottom: "52px" }}>
+            <p style={{ fontSize: "9px", fontWeight: 700, letterSpacing: "0.28em", textTransform: "uppercase", color: "#b8860b", marginBottom: "12px" }}>
+              — BESTSELLERS —
+            </p>
+            <h2 style={{ fontFamily: "Georgia, serif", fontSize: "clamp(1.8rem, 4vw, 2.6rem)", fontWeight: 300, color: "#fff", letterSpacing: "0.1em" }}>
+              Top Products
+            </h2>
           </div>
-          <Link
-            href="/shop"
-            className="hidden sm:flex items-center gap-2 text-xs tracking-widest uppercase font-medium text-charcoal hover:text-rose-gold transition-colors border-b border-charcoal/30 pb-0.5"
-          >
-            View All <ArrowRight size={12} />
-          </Link>
-        </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-          {featuredProducts.map((product) => (
-            <Link key={product.id} href={`/product/${product.slug}`} className="product-card group">
-              {/* Image */}
-              <div className="relative overflow-hidden bg-cream aspect-product">
-                <Image
-                  src={product.image}
-                  alt={product.title}
-                  fill
-                  className="product-card-image object-cover"
-                  sizes="(max-width: 768px) 50vw, 25vw"
-                />
-                {/* Badge */}
-                {product.badge && (
-                  <span className={product.badge === "New" ? "badge-new" : "badge-sale"}>
-                    {product.badge}
-                  </span>
-                )}
-                {/* Quick add on hover */}
-                <div className="absolute bottom-0 left-0 right-0 bg-white/95 py-3 text-center text-xs tracking-widest uppercase font-medium text-charcoal translate-y-full group-hover:translate-y-0 transition-transform duration-300 font-body">
-                  Quick Add
+          {/* 4-col product row — large cards */}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "16px", marginBottom: "16px" }}>
+            {topProducts.map((p) => (
+              <Link key={p.id} href={`/product/${p.slug}`} style={{ textDecoration: "none", color: "inherit" }} className="group">
+                <div>
+                  {/* Badge — outlined box style matching screenshot */}
+                  <div style={{ height: "28px", display: "flex", alignItems: "center", marginBottom: "8px" }}>
+                    {p.badge && (
+                      <span style={{ display: "inline-block", border: "1px solid rgba(184,134,11,0.7)", color: "#b8860b", fontSize: "8px", fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", padding: "3px 9px" }}>
+                        {p.badge}
+                      </span>
+                    )}
+                  </div>
+                  {/* Image tile — tall, dark background */}
+                  <div style={{ position: "relative", aspectRatio: "3/4", overflow: "hidden", backgroundColor: "#0d0d0d", marginBottom: "14px" }}>
+                    <Image src={p.image} alt={p.title} fill
+                      style={{ objectFit: "cover", opacity: 0.7 }}
+                      className="transition-all duration-700 group-hover:opacity-90 group-hover:scale-103"
+                      sizes="(max-width: 1024px) 50vw, 25vw" />
+                    <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.5) 100%)" }} />
+                    {/* Quick add overlay */}
+                    <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, backgroundColor: "rgba(184,134,11,0.92)", color: "#fff", textAlign: "center", padding: "13px", fontSize: "9px", fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", transform: "translateY(100%)", transition: "transform 280ms" }} className="group-hover:translate-y-0">
+                      + ADD TO CART
+                    </div>
+                  </div>
+                  <h3 style={{ fontSize: "12px", fontWeight: 400, color: "#c8c0b4", letterSpacing: "0.04em", marginBottom: "6px", lineHeight: 1.4 }}>{p.title}</h3>
+                  <p style={{ fontSize: "14px", fontWeight: 500, color: "#e8e0d8" }}>${p.price}</p>
                 </div>
-              </div>
-              {/* Info */}
-              <div className="pt-3">
-                <h3 className="font-body text-sm font-medium text-charcoal group-hover:text-rose-gold transition-colors">
-                  {product.title}
-                </h3>
-                <div className="flex items-center gap-2 mt-1">
-                  <span className="font-body text-sm text-charcoal">
-                    ${product.price}
-                  </span>
-                  {product.compareAtPrice && (
-                    <span className="font-body text-xs text-warm-400 line-through">
-                      ${product.compareAtPrice}
-                    </span>
-                  )}
+              </Link>
+            ))}
+          </div>
+
+          {/* Second row of 4 */}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "16px" }}>
+            {moreProducts.map((p) => (
+              <Link key={p.id} href={`/product/${p.slug}`} style={{ textDecoration: "none", color: "inherit" }} className="group">
+                <div>
+                  <div style={{ height: "28px", display: "flex", alignItems: "center", marginBottom: "8px" }}>
+                    {p.badge && (
+                      <span style={{ display: "inline-block", border: "1px solid rgba(184,134,11,0.7)", color: "#b8860b", fontSize: "8px", fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", padding: "3px 9px" }}>
+                        {p.badge}
+                      </span>
+                    )}
+                  </div>
+                  <div style={{ position: "relative", aspectRatio: "3/4", overflow: "hidden", backgroundColor: "#0d0d0d", marginBottom: "14px" }}>
+                    <Image src={p.image} alt={p.title} fill
+                      style={{ objectFit: "cover", opacity: 0.7 }}
+                      className="transition-all duration-700 group-hover:opacity-90 group-hover:scale-103"
+                      sizes="(max-width: 1024px) 50vw, 25vw" />
+                    <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.5) 100%)" }} />
+                    <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, backgroundColor: "rgba(184,134,11,0.92)", color: "#fff", textAlign: "center", padding: "13px", fontSize: "9px", fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", transform: "translateY(100%)", transition: "transform 280ms" }} className="group-hover:translate-y-0">
+                      + ADD TO CART
+                    </div>
+                  </div>
+                  <h3 style={{ fontSize: "12px", fontWeight: 400, color: "#c8c0b4", letterSpacing: "0.04em", marginBottom: "6px", lineHeight: 1.4 }}>{p.title}</h3>
+                  <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+                    <p style={{ fontSize: "14px", fontWeight: 500, color: "#e8e0d8", margin: 0 }}>${p.price}</p>
+                    {p.compareAt && <span style={{ fontSize: "11px", color: "#444", textDecoration: "line-through" }}>${p.compareAt}</span>}
+                  </div>
                 </div>
-              </div>
+              </Link>
+            ))}
+          </div>
+
+          {/* View All button */}
+          <div style={{ textAlign: "center", marginTop: "56px" }}>
+            <Link href="/shop" style={{ display: "inline-block", padding: "14px 60px", fontSize: "9px", fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", border: "1px solid rgba(184,134,11,0.5)", color: "#b8860b", textDecoration: "none" }}>
+              VIEW ALL BRACELETS
             </Link>
-          ))}
-        </div>
-
-        {/* Mobile view all */}
-        <div className="flex justify-center mt-10 sm:hidden">
-          <Link href="/shop" className="btn-secondary">
-            View All Bracelets
-          </Link>
-        </div>
-      </section>
-
-      {/* ── COLLECTIONS GRID ── */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-20">
-        <div className="text-center mb-12">
-          <p className="section-subheading mb-2">Find Your Style</p>
-          <h2 className="section-heading">Shop by Collection</h2>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {collections.map((col) => (
-            <Link
-              key={col.title}
-              href={col.href}
-              className="group relative overflow-hidden aspect-[4/5] block bg-cream"
-            >
-              <Image
-                src={col.image}
-                alt={col.title}
-                fill
-                className="object-cover transition-transform duration-700 group-hover:scale-105"
-                sizes="(max-width: 768px) 100vw, 33vw"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-soft-black/60 via-transparent to-transparent" />
-              <div className="absolute bottom-0 left-0 p-8">
-                <p className="font-body text-xs tracking-widest uppercase text-white/60 mb-1">
-                  {col.subtitle}
-                </p>
-                <h3 className="font-display text-3xl text-white font-light mb-4">
-                  {col.title}
-                </h3>
-                <span className="inline-flex items-center gap-2 text-xs tracking-widest uppercase font-medium text-white border-b border-white/40 pb-0.5 group-hover:border-white transition-colors">
-                  Shop Now <ArrowRight size={11} />
-                </span>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      {/* ── EDITORIAL STRIP — THE STACK ── */}
-      <section className="bg-cream py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div className="relative">
-              <div className="aspect-[4/5] relative overflow-hidden">
-                <Image
-                  src="https://images.unsplash.com/photo-1535556116002-6281ff3e9f36?w=800&q=80"
-                  alt="Bracelet stacking guide"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                />
-              </div>
-              {/* Floating card */}
-              <div className="absolute -bottom-6 -right-4 md:right-6 bg-white p-5 shadow-brand max-w-[200px]">
-                <Sparkles size={16} className="text-rose-gold mb-2" />
-                <p className="font-display text-lg font-light text-soft-black leading-tight">
-                  The art of stacking
-                </p>
-                <p className="font-body text-xs text-warm-400 mt-1">
-                  Mix textures, metals & meaning
-                </p>
-              </div>
-            </div>
-
-            <div className="lg:pl-8">
-              <p className="section-subheading mb-4">Our Philosophy</p>
-              <h2 className="font-display text-4xl md:text-5xl font-light text-soft-black leading-tight mb-6 text-balance">
-                Every bracelet tells{" "}
-                <em className="italic text-rose-gold">a story</em>
-              </h2>
-              <p className="font-body text-sm text-warm-400 leading-relaxed mb-4">
-                We believe jewelry should be worn, not saved for special occasions.
-                Each piece in our collection is designed to become part of your
-                daily ritual — layered, stacked, and loved.
-              </p>
-              <p className="font-body text-sm text-warm-400 leading-relaxed mb-10">
-                Handcrafted using ethically sourced materials, every Luxe & Delicate
-                bracelet is made to last a lifetime and tell your story with every wear.
-              </p>
-              <div className="flex flex-wrap gap-4">
-                <Link href="/story" className="btn-primary">
-                  Our Story
-                </Link>
-                <Link href="/shop/custom" className="btn-secondary">
-                  Create Custom
-                </Link>
-              </div>
-            </div>
           </div>
         </div>
       </section>
 
-      {/* ── INSTAGRAM FEED TEASER ── */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20">
-        <div className="text-center mb-10">
-          <p className="section-subheading mb-2">@luxeanddelicate</p>
-          <h2 className="section-heading">As Seen on Instagram</h2>
-        </div>
-        <div className="grid grid-cols-3 md:grid-cols-6 gap-2">
-          {[
-            "https://images.unsplash.com/photo-1611652022419-a9419f74343d?w=400&q=80",
-            "https://images.unsplash.com/photo-1573408301185-9519f94f8df9?w=400&q=80",
-            "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&q=80",
-            "https://images.unsplash.com/photo-1602173574767-37ac01994b2a?w=400&q=80",
-            "https://images.unsplash.com/photo-1535556116002-6281ff3e9f36?w=400&q=80",
-            "https://images.unsplash.com/photo-1599643477877-530eb83abc8e?w=400&q=80",
-          ].map((img, i) => (
-            <a
-              key={i}
-              href="https://instagram.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group relative aspect-square overflow-hidden block bg-cream"
-            >
-              <Image
-                src={img}
-                alt={`Instagram post ${i + 1}`}
-                fill
-                className="object-cover transition-transform duration-500 group-hover:scale-110"
-                sizes="(max-width: 768px) 33vw, 16vw"
-              />
-              <div className="absolute inset-0 bg-soft-black/0 group-hover:bg-soft-black/20 transition-colors duration-300" />
-            </a>
-          ))}
-        </div>
-        <div className="text-center mt-8">
-          <a
-            href="https://instagram.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-xs tracking-widest uppercase font-medium text-charcoal hover:text-rose-gold transition-colors border-b border-charcoal/30 pb-0.5"
-          >
-            Follow Us on Instagram <ArrowRight size={12} />
-          </a>
-        </div>
-      </section>
-
-      {/* ── CUSTOM BRACELET CTA ── */}
-      <section className="relative py-24 overflow-hidden bg-charcoal">
-        <div className="absolute inset-0 opacity-10">
-          <Image
-            src="https://images.unsplash.com/photo-1599643477877-530eb83abc8e?w=1200&q=60"
-            alt=""
-            fill
-            className="object-cover"
-            sizes="100vw"
-          />
-        </div>
-        <div className="relative mx-auto max-w-2xl px-4 text-center">
-          <Sparkles size={20} className="text-blush mx-auto mb-6" />
-          <h2 className="font-display text-4xl md:text-5xl font-light text-white mb-5 text-balance">
-            Create something{" "}
-            <em className="italic text-blush">uniquely yours</em>
+      {/* ── BRAND STATEMENT ──────────────────────────────────────────────────── */}
+      <section style={{ borderTop: "1px solid #141414", padding: "96px 24px", textAlign: "center" }}>
+        <div style={{ maxWidth: "560px", margin: "0 auto" }}>
+          <div style={{ width: "1px", height: "52px", backgroundColor: "#b8860b", margin: "0 auto 36px" }} />
+          <h2 style={{ fontFamily: "Georgia, serif", fontSize: "clamp(1.6rem, 3.5vw, 2.4rem)", fontWeight: 300, color: "#fff", letterSpacing: "0.08em", lineHeight: 1.35, marginBottom: "22px" }}>
+            Every Stone Tells<br />a Story
           </h2>
-          <p className="font-body text-sm text-white/50 mb-10 leading-relaxed">
-            Design a custom bracelet with your choice of beads, charms, metals,
-            and engraving. The perfect gift — or a gift to yourself.
+          <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.35)", lineHeight: 2.0, marginBottom: "40px" }}>
+            We source every gemstone with intention. Lapis lazuli from Afghanistan, turquoise from the American Southwest, jade from Myanmar. Each bracelet is individually handcrafted — no two are ever exactly alike.
           </p>
-          <Link href="/shop/custom" className="btn-primary bg-white text-soft-black hover:bg-cream">
-            Start Customizing
+          <Link href="/story" style={{ display: "inline-block", color: "#b8860b", fontSize: "9px", fontWeight: 700, letterSpacing: "0.24em", textTransform: "uppercase", textDecoration: "none", borderBottom: "1px solid rgba(184,134,11,0.5)", paddingBottom: "3px" }}>
+            READ OUR STORY →
           </Link>
         </div>
       </section>
-    </>
+
+      {/* ── TRUST STRIP ──────────────────────────────────────────────────────── */}
+      <div style={{ borderTop: "1px solid #141414" }}>
+        <div style={{ maxWidth: "1380px", margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(4,1fr)" }}>
+          {[
+            { icon: "✦", title: "Handcrafted",     sub: "Each piece made by hand" },
+            { icon: "◈", title: "Genuine Stones",  sub: "100% natural gemstones" },
+            { icon: "↩", title: "100-Day Returns", sub: "Hassle-free guarantee" },
+            { icon: "✉", title: "Free Shipping",   sub: "On orders over $65" },
+          ].map((b, i) => (
+            <div key={b.title} style={{ padding: "28px 20px", textAlign: "center", borderRight: i < 3 ? "1px solid #141414" : "none" }}>
+              <div style={{ fontSize: "15px", color: "#b8860b", marginBottom: "9px" }}>{b.icon}</div>
+              <div style={{ fontSize: "9px", fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", color: "#e8e0d8", marginBottom: "5px" }}>{b.title}</div>
+              <div style={{ fontSize: "11px", color: "#444" }}>{b.sub}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+    </div>
   );
 }
