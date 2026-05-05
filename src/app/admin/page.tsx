@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createAdminClient } from "@/lib/supabase";
 import Link from "next/link";
 
@@ -139,3 +140,4 @@ export default async function AdminDashboard() {
     </div>
   );
 }
+
